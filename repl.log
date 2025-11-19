@@ -1,0 +1,6 @@
+
+> ts-pokedex-bootdev@1.0.0 dev
+> npx tsc && node dist/main.js
+
+Pokedex > Pokedex > Your command was: charmander
+Your command was: pikachu
