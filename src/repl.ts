@@ -1,7 +1,4 @@
-import * as readline from "node:readline";
-import { commandExit } from "./command_exit.js";
-import { commandHelp } from "./command_help.js";
-import { CLICommand, State } from "./state.js";
+import { State } from "./state.js";
 
 export function startREPL(state: State) {
 

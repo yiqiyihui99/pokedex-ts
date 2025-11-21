@@ -3,6 +3,7 @@ import { commandExit } from "./command_exit.js";
 import { commandHelp } from "./command_help.js";
 import { commandMap, commandMapb } from "./command_map.js";
 import { PokeAPI } from "./pokiapi.js";
+import { PokeCache } from "./pokecache.js";
 
 export type CLICommand = {
     name: string;
@@ -49,7 +50,8 @@ export function initState(): State {
         // TODO: Add more commands here
     }
 
-    const pokeAPI = new PokeAPI();
+    const cache = new PokeCache(5000);
+    const pokeAPI = new PokeAPI(cache);
 
     return {rl, commands, pokeAPI, nextLocationsURL: null, prevLocationsURL: null};
 }
