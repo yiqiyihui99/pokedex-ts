@@ -2,13 +2,15 @@ import { createInterface, type Interface } from "readline";
 import { commandExit } from "./command_exit.js";
 import { commandHelp } from "./command_help.js";
 import { commandMap, commandMapb } from "./command_map.js";
-import { PokeAPI } from "./pokiapi.js";
+import { commandExplore } from "./command_explore.js";
+import { commandCatch } from "./command_catch.js";
+import { PokeAPI, Pokemon } from "./pokiapi.js";
 import { PokeCache } from "./pokecache.js";
 
 export type CLICommand = {
     name: string;
     description: string;
-    callback: (state: State) => Promise<void>;
+    callback: (state: State, ...args: string[]) => Promise<void>;
 };
 
 export type State = {
@@ -17,6 +19,7 @@ export type State = {
     pokeAPI: PokeAPI;
     nextLocationsURL: string | null;
     prevLocationsURL: string | null;
+    pokedex: Record<string, Pokemon>;
 };
 
 export function initState(): State {
@@ -47,11 +50,21 @@ export function initState(): State {
             description: "Displays a list of ordered locations given a previous page URL",
             callback: commandMapb,
         },
+        explore: {
+            name: "explore",
+            description: "Explores a given location and displays the Pokemon encountered",
+            callback: commandExplore,
+        },
+        catch: {
+            name: "catch",
+            description: "Attempts to catch a given Pokemon",
+            callback: commandCatch,
+        }
         // TODO: Add more commands here
     }
 
     const cache = new PokeCache(5000);
     const pokeAPI = new PokeAPI(cache);
 
-    return {rl, commands, pokeAPI, nextLocationsURL: null, prevLocationsURL: null};
+    return {rl, commands, pokeAPI, nextLocationsURL: null, prevLocationsURL: null, pokedex: {}};
 }

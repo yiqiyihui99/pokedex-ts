@@ -11,7 +11,7 @@ export class PokeAPI {
     async fetchLocations(pageURL?: string): Promise<ShallowLocations> {
       const key = pageURL || `${PokeAPI.baseURL}/location-area/`;
       const cachedLocations = this.#cache.get<ShallowLocations>(key);
-    if (cachedLocations !== undefined) {
+      if (cachedLocations !== undefined) {
         console.log(`Cached locations found for ${key}`);
         return cachedLocations;
       }
@@ -49,6 +49,11 @@ export class PokeAPI {
         throw new Error(`Failed to fetch location: ${e}`);
       }
     }
+
+    async fetchPokemon(pokemonName: string): Promise<void> {
+      const key = `${PokeAPI.baseURL}/pokemon/${pokemonName}`;
+      
+    }
   }
   
   export type ShallowLocations = {
@@ -68,3 +73,11 @@ export class PokeAPI {
       pokemon: { name: string; url: string };
     }[];
   };
+  
+  export type Pokemon = {
+    id: number;
+    name: string;
+    base_experience: number;
+  }
+
+
